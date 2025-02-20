@@ -20,9 +20,11 @@ cursor = connection.cursor()
 ### Добавление нового пользователя
 ##cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('newuser', 'newuser@example.com', 28))
 
-# Обновление записей
-cursor.execute('UPDATE Users SET age = ? WHERE username = ?',(29, 'newuser'))
+### Обновление записей
+##cursor.execute('UPDATE Users SET age = ? WHERE username = ?',(29, 'newuser'))
 
+# Удаление записей
+cursor.execute('DELETE FROM Users WHERE username = ?', ('newuser',))
 
 connection.commit()
 connection.close()
