@@ -18,13 +18,13 @@ age INTEGER
 ##cursor.execute('CREATE INDEX idx_email ON Users(email)')
 
 # Добавление нового пользователя
-cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('newuser', 'newuser@example.com', 30))
+cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('newuser', 'newuser@example.com', 28))
 
 ### Обновление записей
 ##cursor.execute('UPDATE Users SET age = ? WHERE username = ?',(29, 'newuser'))
 
 ### Удаление записей
-##cursor.execute('DELETE FROM Users WHERE username = ?', ('newuser',))
+#cursor.execute('DELETE FROM Users WHERE username = ?', ('newuser',))
 
 ##cursor.execute('SELECT username, age FROM Users WHERE age > ?', (25,))
 
@@ -40,8 +40,20 @@ cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('ne
 ##for x in filter_results:
 ##    print(x)
 
-# Выбираем и сортируем пользователей по возрасту по убыванию 
-cursor.execute('SELECT username, age FROM Users ORDER BY age DESC')
+### 1) Выбираем и сортируем пользователей по возрасту по убыванию 
+##cursor.execute('SELECT username, age FROM Users ORDER BY age DESC')
+##results = cursor.fetchall()
+##for row in results:
+##    print(row)
+
+# 2) Выбираем и сортируем пользователей по возрасту по убыванию 
+cursor.execute('''
+SELECT username, age, AVG(age)
+FROM Users
+GROUP BY age
+HAVING AVG(age) > ?
+ORDER BY age DESC
+''', (28,))
 results = cursor.fetchall()
 for row in results:
     print(row)
