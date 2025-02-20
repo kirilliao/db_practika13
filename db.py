@@ -17,7 +17,7 @@ age INTEGER
 ### - Создание индекса
 ##cursor.execute('CREATE INDEX idx_email ON Users(email)')
 
-# Добавление нового пользователя
+# - Добавление нового пользователя
 cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('newuser', 'newuser@example.com', 30))
 
 ### - Обновление записей
@@ -93,14 +93,29 @@ cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('ne
 ##    print(row)
 
 # ---------------------------------------------------
-# Методы fetchone, fetchmany, fetchall
+### - Методы fetchone, fetchmany, fetchall
+##cursor.execute('SELECT * FROM Users')
+##first_user = cursor.fetchone() # первая запись
+##print(first_user)
+##first_five_user = cursor.fetchmany(5) # первые 5 записей
+##print(first_five_user)
+##all_users = cursor.fetchall() # все записи
+##print(all_users)
+
+# - Преобразование данных в списки или словари
 cursor.execute('SELECT * FROM Users')
-first_user = cursor.fetchone() # первая запись
-print(first_user)
-first_five_user = cursor.fetchmany(5) # первые 5 записей
-print(first_five_user)
-all_users = cursor.fetchall() # все записи
-print(all_users)
+users = cursor.fetchall()
+users_list = []
+for user in users:
+    user_dict = {
+        'id': user[0],
+        'username': user[1],
+        'email': user[2],
+        'age': user[3],
+    }
+users_list.append(user_dict)
+for u_l in users_list:
+    print(u_l)
 
 ##connection.commit()
 connection.close()
