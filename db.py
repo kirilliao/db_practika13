@@ -26,11 +26,17 @@ cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('ne
 ### Удаление записей
 ##cursor.execute('DELETE FROM Users WHERE username = ?', ('newuser',))
 
-cursor.execute('SELECT username, age FROM Users WHERE age > ?', (25,))
+##cursor.execute('SELECT username, age FROM Users WHERE age > ?', (25,))
+cursor.execute('SELECT age, AVG(age) FROM Users GROUP BY age')
 results = cursor.fetchall()
-
 for i in results:
     print(i)
+    
+# Фильтрация групп по среднему возросту больше 30
+cursor.execute('SELECT age, AVG(age) FROM Users GROUP BY age HAVING AVG(age) > ?', (30,))
+filter_results = cursor.fetchall()
+for x in filter_results:
+    print(x)
 
-connection.commit()
+##connection.commit()
 connection.close()
