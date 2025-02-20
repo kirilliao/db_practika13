@@ -102,20 +102,29 @@ cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('ne
 ##all_users = cursor.fetchall() # все записи
 ##print(all_users)
 
-# - Преобразование данных в списки или словари
-cursor.execute('SELECT * FROM Users')
-users = cursor.fetchall()
-users_list = []
-for user in users:
-    user_dict = {
-        'id': user[0],
-        'username': user[1],
-        'email': user[2],
-        'age': user[3],
-    }
-users_list.append(user_dict)
-for u_l in users_list:
-    print(u_l)
+### - Преобразование данных в списки или словари
+##cursor.execute('SELECT * FROM Users')
+##users = cursor.fetchall()
+##users_list = []
+##for user in users:
+##    user_dict = {
+##        'id': user[0],
+##        'username': user[1],
+##        'email': user[2],
+##        'age': user[3],
+##    }
+##users_list.append(user_dict)
+##for u_l in users_list:
+##    print(u_l)
+
+# - Обработка NULL - значений
+cursor.execute('SELECT * FROM Users WHERE age IS NULL')
+unknown_age_users = cursor.fetchall()
+for i in unknown_age_users:
+    print(i)
+
+
+
 
 ##connection.commit()
 connection.close()
