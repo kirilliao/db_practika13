@@ -86,11 +86,21 @@ cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('ne
 ##for user in oldest_users:
 ##    print(user)
 
-# - Вывод всех пользователей
-cursor.execute('SELECT * FROM Users')
-all_users = cursor.fetchall()
-for row in all_users:
-    print(row)
+### - Вывод всех пользователей
+##cursor.execute('SELECT * FROM Users')
+##all_users = cursor.fetchall()
+##for row in all_users:
+##    print(row)
 
-connection.commit()
+# ---------------------------------------------------
+# Методы fetchone, fetchmany, fetchall
+cursor.execute('SELECT * FROM Users')
+first_user = cursor.fetchone() # первая запись
+print(first_user)
+first_five_user = cursor.fetchmany(5) # первые 5 записей
+print(first_five_user)
+all_users = cursor.fetchall() # все записи
+print(all_users)
+
+##connection.commit()
 connection.close()
