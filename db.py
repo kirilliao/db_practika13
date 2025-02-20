@@ -18,7 +18,7 @@ age INTEGER
 ##cursor.execute('CREATE INDEX idx_email ON Users(email)')
 
 # Добавление нового пользователя
-cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('newuser', 'newuser@example.com', 28))
+cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('newuser', 'newuser@example.com', 30))
 
 ### - Обновление записей
 ##cursor.execute('UPDATE Users SET age = ? WHERE username = ?',(29, 'newuser'))
@@ -75,16 +75,22 @@ cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('ne
 ##max_age = cursor.fetchone() [0]
 ##print('Минимальный возраст пользователей:', max_age)
 
-# Сложный запрос с объединением таблиц
-cursor.execute('''
-SELECT username, age
-FROM Users
-WHERE age = (SELECT MAX(age) FROM Users)
-''')
-oldest_users = cursor.fetchall()
+### Сложный запрос с объединением таблиц
+##cursor.execute('''
+##SELECT username, age
+##FROM Users
+##WHERE age = (SELECT MAX(age) FROM Users)
+##''')
+##oldest_users = cursor.fetchall()
+##
+##for user in oldest_users:
+##    print(user)
 
-for user in oldest_users:
-    print(user)
+# - Вывод всех пользователей
+cursor.execute('SELECT * FROM Users')
+all_users = cursor.fetchall()
+for row in all_users:
+    print(row)
 
-##connection.commit()
+connection.commit()
 connection.close()
