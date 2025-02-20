@@ -17,7 +17,12 @@ cursor = connection.cursor()
 ###Создание индекса
 ##cursor.execute('CREATE INDEX idx_email ON Users(email)')
 
-# Добавление нового пользователя
-cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('newuser', 'newuser@example.com', 28))
+### Добавление нового пользователя
+##cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('newuser', 'newuser@example.com', 28))
+
+# Обновление записей
+cursor.execute('UPDATE Users SET age = ? WHERE username = ?',(29, 'newuser'))
+
+
 connection.commit()
 connection.close()
