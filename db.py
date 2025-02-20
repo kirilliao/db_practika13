@@ -4,8 +4,6 @@ import sqlite3
 connection = sqlite3.connect('vkv_my_db.db')
 cursor = connection.cursor()
 
-#Создание индекса
-cursor.execute('CREATE INDEX idx_email ON Users(email)')
 ### СОздание таблицы Users
 ##cursor.execute('''
 ##CREATE TABLE IF NOT EXISTS Users(
@@ -16,6 +14,10 @@ cursor.execute('CREATE INDEX idx_email ON Users(email)')
 ##)
 ##''')
 
-# Сохранение изменения и закрывание соединения
+###Создание индекса
+##cursor.execute('CREATE INDEX idx_email ON Users(email)')
+
+# Добавление нового пользователя
+cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('newuser', 'newuser@example.com', 28))
 connection.commit()
 connection.close()
