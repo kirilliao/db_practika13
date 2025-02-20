@@ -26,10 +26,10 @@ cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('ne
 ### Удаление записей
 ##cursor.execute('DELETE FROM Users WHERE username = ?', ('newuser',))
 
-cursor.execute('SELECT * FROM Users')
-users = cursor.fetchall()
+cursor.execute('SELECT username, age FROM Users WHERE age > ?', (25,))
+results = cursor.fetchall()
 
-for i in users:
+for i in results:
     print(i)
 
 connection.commit()
