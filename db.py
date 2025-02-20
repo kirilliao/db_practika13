@@ -1,10 +1,10 @@
 import sqlite3
 
-# Установка соединения с БД
+# - Установка соединения с БД
 connection = sqlite3.connect('vkv_my_db.db')
 cursor = connection.cursor()
 
-# СОздание таблицы Users
+# - СОздание таблицы Users
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS Users(
 id INTEGER PRIMARY KEY,
@@ -14,49 +14,67 @@ age INTEGER
 )
 ''')
 
-###Создание индекса
+### - Создание индекса
 ##cursor.execute('CREATE INDEX idx_email ON Users(email)')
 
 # Добавление нового пользователя
 cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('newuser', 'newuser@example.com', 28))
 
-### Обновление записей
+### - Обновление записей
 ##cursor.execute('UPDATE Users SET age = ? WHERE username = ?',(29, 'newuser'))
 
-### Удаление записей
+### - Удаление записей
 #cursor.execute('DELETE FROM Users WHERE username = ?', ('newuser',))
 
 ##cursor.execute('SELECT username, age FROM Users WHERE age > ?', (25,))
 
-### Получаем средний возраст пользователей для каждого возраста 
+### - Получаем средний возраст пользователей для каждого возраста 
 ##cursor.execute('SELECT age, AVG(age) FROM Users GROUP BY age')
 ##results = cursor.fetchall()
 ##for i in results:
 ##    print(i)
-##    
-### Фильтрация групп по среднему возросту больше 30
+    
+### - Фильтрация групп по среднему возросту больше 30
 ##cursor.execute('SELECT age, AVG(age) FROM Users GROUP BY age HAVING AVG(age) > ?', (30,))
 ##filter_results = cursor.fetchall()
 ##for x in filter_results:
 ##    print(x)
 
-### 1) Выбираем и сортируем пользователей по возрасту по убыванию 
+### - 1) Выбираем и сортируем пользователей по возрасту по убыванию 
 ##cursor.execute('SELECT username, age FROM Users ORDER BY age DESC')
 ##results = cursor.fetchall()
 ##for row in results:
 ##    print(row)
 
-# 2) Выбираем и сортируем пользователей по возрасту по убыванию 
-cursor.execute('''
-SELECT username, age, AVG(age)
-FROM Users
-GROUP BY age
-HAVING AVG(age) > ?
-ORDER BY age DESC
-''', (28,))
-results = cursor.fetchall()
-for row in results:
-    print(row)
+### - 2) Выбираем и сортируем пользователей по возрасту по убыванию 
+##cursor.execute('''
+##SELECT username, age, AVG(age)
+##FROM Users
+##GROUP BY age
+##HAVING AVG(age) > ?
+##ORDER BY age DESC
+##''', (27,))
+##results = cursor.fetchall()
+##for row in results:
+##    print(row)
+
+# - Агрегатные функции 
+cursor.execute('SELECT COUNT(*) FROM Users')
+total_users = cursor.fetchone() [0]
+print('Общее количество пользователей:', total_users)
+cursor.execute('SELECT SUM(age) FROM Users') 
+total_age = cursor.fetchone() [0]
+print('Общее сумма возрастов пользователей:', total_age)
+cursor.execute('SELECT AVG(age) FROM Users') 
+average_age = cursor.fetchone() [0]
+print('Средний возраст пользователей:', average_age)
+cursor.execute('SELECT MIN(age) FROM Users') 
+min_age = cursor.fetchone() [0]
+print('Минимальный возраст пользователей:', min_age)
+cursor.execute('SELECT MAX(age) FROM Users') 
+max_age = cursor.fetchone() [0]
+print('Минимальный возраст пользователей:', max_age)
+
 
 ##connection.commit()
 connection.close()
