@@ -75,7 +75,7 @@ cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('ne
 ##max_age = cursor.fetchone() [0]
 ##print('Минимальный возраст пользователей:', max_age)
 
-### Сложный запрос с объединением таблиц
+### - Сложный запрос с объединением таблиц
 ##cursor.execute('''
 ##SELECT username, age
 ##FROM Users
@@ -154,6 +154,37 @@ cursor.execute(query, (25,))
 users = cursor.fetchall()
 for user in users:
     print(user)
+
+# - Представления (view)
+# - Создание представления для активных пользователей
+cursor.execute('CREATE VIEW ActiveUsers AS SELECT * FROM Users WHERE is_active = 1')
+# - Выбор активных пользователей
+cursor.execute('SELECT * FROM ActiveUsers')
+active_users = cursor.fetchall()
+for user in active_users:
+    print(user)
+
+# - Триггеры
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS Users(
+id INTEGER PRIMARY KEY,
+username TEXT NOT NULL,
+email TEXT NOT NULL,
+age INTEGER,
+created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+''')
+# - Создание триггера
+cursor.execute('''
+CREATE TRIGGER IF NOT EXISTS update_created_at
+AFTER INSERT ON Users
+BEGIN
+UPDATE Users SET created_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
+END;
+''')
+
+# - Индексы
+cursor.execute('CREATE INDEX idx_username ON Users(username)')
     
-##connection.commit()
+connection.commit()
 connection.close()
