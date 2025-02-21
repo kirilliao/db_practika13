@@ -123,30 +123,37 @@ cursor.execute('INSERT INTO Users (username, email, age) VALUES (?, ?, ?)', ('ne
 ##for i in unknown_age_users:
 ##    print(i)
 
-# - Операторы BEGIN, COMMIT и ROLLBACK
-try:
-    # Начало транзакции
-    cursor.execute('BEGIN')
-    # Выполнение операции
-    cursor.execute('INSERT INTO Users (username, email) VALUES (?, ?)', ('user1', 'user1@example.com'))
-    cursor.execute('INSERT INTO Users (username, email) VALUES (?, ?)', ('user2', 'user2@example.com'))
-    # Подтверждение ихменений
-    cursor.execute('COMMIT')
-except:
-    # отмена транзакции в случае ошибки
-    cursor.execute('ROLLBACK')
+### - Операторы BEGIN, COMMIT и ROLLBACK
+##try:
+##    # Начало транзакции
+##    cursor.execute('BEGIN')
+##    # Выполнение операции
+##    cursor.execute('INSERT INTO Users (username, email) VALUES (?, ?)', ('user1', 'user1@example.com'))
+##    cursor.execute('INSERT INTO Users (username, email) VALUES (?, ?)', ('user2', 'user2@example.com'))
+##    # Подтверждение ихменений
+##    cursor.execute('COMMIT')
+##except:
+##    # отмена транзакции в случае ошибки
+##    cursor.execute('ROLLBACK')
+##
+### - Автоматическое управление транзакциями
+##import sqlite3
+##with sqlite3.connection('vkv_my_db.db') as connection:
+##    cursor = connection.cursor()
+##    try:
+##        # Начало транзакции автоматически
+##        with connection:
+##            cursor.execute('INSERT INTO Users (username, email) VALUES (?, ?)', ('user1', 'user1@example.com'))
+##            cursor.execute('INSERT INTO Users (username, email) VALUES (?, ?)', ('user2', 'user2@example.com'))
+##    except:
+##        pass
 
-# - Автоматическое управление транзакциями
-import sqlite3
-with sqlite3.connection('vkv_my_db.db') as connection:
-    cursor = connection.cursor()
-    try:
-        # Начало транзакции автоматически
-        with connection:
-            cursor.execute('INSERT INTO Users (username, email) VALUES (?, ?)', ('user1', 'user1@example.com'))
-            cursor.execute('INSERT INTO Users (username, email) VALUES (?, ?)', ('user2', 'user2@example.com'))
-    except:
-        pass
-
+# - Продвинутые концепции
+query = 'SELECT * FROM Users WHERE age > ?'
+cursor.execute(query, (25,))
+users = cursor.fetchall()
+for user in users:
+    print(user)
+    
 ##connection.commit()
 connection.close()
